@@ -1,0 +1,123 @@
+\documentclass[Lau]{sapthesis}
+
+\usepackage[italian]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{framed}
+
+\title{IGOR: sistema per la collaborazione uomo-macchina sul lavoro}
+\author{Alessandro Maccagno}
+\IDnumber{1653200}
+\course{Ingegneria Informatica ed Automatica}
+\courseorganizer{ Facoltà di Ingegneria dell'Informazione, Informatica e Statistica}
+\submitdate{2016/2017}
+\copyyear{2017}
+\advisor{Prof. Daniele Nardi}
+%\coadvisor{Prof. Marco Imperoli}
+\authoremail{maccagno.1653200@studenti.uniroma1.it}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\tableofcontents
+\newpage
+
+\mainmatter
+\chapter{Introduzione}
+Questa è una sezione introduttiva alla tesi.
+\section{Organizzazione documento}
+Questa sezione è volta a illustrare le varie parti che compongono questa tesi; essa è suddivisa in diversi capitoli ed in ognuno viene affrontato un diverso aspetto del progetto. In questo primo capitolo introduttivo viene analizzato l'argomento degli agenti robotici autonomi, con relativi utilizzi ed applicazioni, assieme ad una breve sintesi del lavoro svolto, con accenni alle funzionalità del robot. Nel secondo capitolo sono descritti gli strumenti utilizzati, sia hardware che software, che si sono rivelati necessari, o anche solo estremamente utili, allo sviluppo del progetto. Il terzo capitolo illustra la costruzione del robot vero e proprio, passando dall'assemblaggio della sua struttura esterna alla realizzazione dei collegamenti elettronici. Il quarto capitolo invece è dedicato alle funzionalità della macchina, e descrive le funzioni che quest'ultima deve svolgere, la loro implementazione e come le conoscenze pregresse possedute abbiano influenzato questi due aspetti. Infine nell'ultimo capitolo saranno esposte le conclusioni ed i risultati conseguiti in questo progetto.
+\section{Agente robotico autonomo}
+Qui si parla di agenti robotici autonomi
+\section{Applicazioni}
+\section{Sintesi del lavoro}
+\chapter{Strumenti utilizzati}
+\section{Hardware}
+\subsection{Parti}
+\subsection{Kinect}
+\textcolor{sapred}{IGOR} utilizza il Kinect per Xbox 360 come sensore per percepire l'ambiente circostante; esso è formato da una barra orizzontale plastica collegata tramite un motore alla \begin{figure}[h!]
+  \includegraphics[width=\linewidth]{/home/ale/Scaricati/kinectstruct.png}
+  \caption{Struttura del Kinect}
+  \label{fig:kinectstruct}
+\end{figure}
+base, e possiede ricettori che gli permettono di ricevere diversi tipi di segnali.\\
+Dal punto di vista visivo, esso si comporta come una camera RGBD, ovvero uno strumento per la visione che combina ad una normale camera a colori (RGB) un sensore di profondità per ricostruire l'ambiente circostante: una videocamera RGB permette l'acquisizione di immagini ad una risoluzione di 640x480 a 32-bit, mentre la profondità è ottenuta tramite modalità a luce strutturata con risoluzione 320x240 a 16-bit (sebbene l'hardware supporti una risloluzione massima di 1280x1024). Con questo metodo un emettitore, posto a sinistra della camera RGB, proietta una matrice di punti luminosi, ognuno dei quali viene riflesso alla prima collisione con un corpo; questi fasci infrarossi vengono poi catturati da un ricevitore, posto alla destra della videocamera, che analizza la distorsione subita dalla matrice e ricava l'aspetto dell'ambiente circostante\footnote{\label{kinectvideo}http://www.cs.upc.edu/~virtual/RVA/CourseSlides/Kinect.pdf, C.Andùjar}.\\Ovviamente, dato l'uso di luce per il calcolo delle distanze dello strumento dai corpi che percepisce, quest'ultimo funzionerà ragionevolmente bene in un ambiente chiuso, mentre si troverà in difficoltà all'aperto o in condizioni di luminosità eccessiva, a causa delle inteferenze che la luce esterna causa con l'emettitore IR. Vanno inoltre evitate le superfici che riflettono la luce in modo troppo elevato o troppo ridotto (come vetri e specchi), che finirebbero per non distorcere o addirittura non riflettere la matrice di punti infrarossi. Di seguito una tabella riassuntiva delle specifiche visive\footnote{\label{kinectspecs}http://kotaku.com/5576002/here-are-kinects-technical-specs}.\\
+\begin{center}
+\begin{tabular}{|c|c|}
+  \hline
+  Risoluzione camera RGB & 640x480 a 32-bit \\ \hline
+  Risoluzione depth camera & 320x240 a 16-bit \\ \hline
+  Campo visivo verticale & 43 gradi \\ \hline
+  Campo visivo orizzontale & 57 gradi \\ \hline
+  Raggio visivo & 0.8m - 3.5m \\ \hline
+\end{tabular}
+\end{center}
+Il Kinect possiede un array di 4 microfoni, posizionati per la lunghezza dello strumento, che permettono di catturare audio proveniente dall'ambiente circostante, ed è in grado di processare segnali a 16 bit con una frequenza di campionamento di 16kHz.
+Come già accennato in precedenza, è inoltre presente un motore alla base che consente di variare l'inclinazione del Kinect per un massimo di 27 gradi.
+\subsection{Arduino, Motor Shield e Motori}
+\section{Software}
+Questa sezione si occupa di analizzare tutti gli strumenti software utilizzati nello sviluppo di questo progetto; per un'analisi dell'uso personalizzato all'interno dell'applicazione (parametri specifici, inserti di codice, file di configurazione) si rimanda al capitolo 4 - Funzionalità.\subsection{Simulatore stage}
+stage è un software per la simulazione, che permette all'utente di testare il comportamento di uno o più robot su una mappa data. [Stage è in forse]
+\subsection{rviz}
+rviz è un visualizzatore 3d, che permette di sottoscrivere topic per poter accedere visivamente a tutte le informazioni che possono essere estratte dall'utilizzo di un robot in un determinato ambiente, come ad esempio dati che vengono ricevuti dai sensori, le trasformate di ogni entità, mappe, e simili. Per fare ciò, bisogna creare dei Display, dove un display è per rviz una qualunque entità che trasmetta delle informazioni che possano essere rappresentate in 3d, ognuno dei quali possiede delle proprietà che possono essere modificate.
+\begin{center}
+[Immagine di un display rviz con descrizione delle proprietà]
+\end{center}
+Nell'esempio mostrato nell'immagine [img], possiamo notare vari elementi di rilievo; sulla sinistra sono presenti i display attivi al momento e in quello evidenziato, di tipo Map, sono anche visibili le proprietà, che possono essere modificabili (come la checkbox 'Draw Beind' per posizionare la mappa sempre in fondo, il topic da cui trarre e informazioni o il livello di opacità 'Alpha') o solo informative (come larghezza, altezza e risoluzione della mappa).\\ Sulla destra invece è presente la View correntemente selezionata, ovvero l'insieme di impostazioni visive (come inclinazione ed altezza rispetto al suolo o tipo di telecamera) che rviz utilizza per mostrare i dati che riceve all'utente.\\ In alto invece sono presenti alcuni comandi molto utili, in particolar modo tre di essi:
+\begin{itemize}
+\item \textbf{2d Pose Estimate: } Serve per dare ad rviz le coordinate attuali e verso del robot; questo comando è fondamentale in quanto permette di posizionare il robot nell'ambiente in qualunque momento, per esempio al momento dell'inizializzazione del robot o per correggere inesattezze nella posizione dovuti all'accumularsi di errori dell'odometria.
+\item \textbf{2d Nav Goal: } Serve per dare un obiettivo al robot. Permette di specificare coordinate e verso che il robot dovrà avere una volta terminato il suo spostamento. 
+\item \textbf{Publish Point: } Utilizzato per accedere alle coordinate dei punti della mappa. 
+\end{itemize}
+\subsection{move\_base}
+move\_base è un pacchetto che fornisce nodi per la navigazione del ed implementa alcune funzionalità fondamentali, come l'obstacle avoidance, che sono necessarie a qualunque robot. La struttura di move\_base è teoricamente molto semplice: il nodo riceve in input un messaggio di posizione (geometry\_msgs/PoseStamped) da raggiungere sul nodo e invia al controllore del movimento un messaggio di velocità (geometry\_msgs/Twist) sul topic cmd\_vel per raggiungerlo.\\ In realtà, la stack di navigazione di un robot (insieme di nodi, frame e topic necessari al robot per le operazioni di mappatura, localizzazione e pianificazione) è estremamente più complessa, come mostrato nella seguente immagine:
+\begin{center}
+[Img della stack di navigazione]
+\end{center}
+Come si può notare nell'immagine, vi sono componenti di diversi colori: i nodi bianchi sono richiesti da ogni sistema ma sono forniti, i nodi grigi sono forniti ed opzionali, mentre i nodi blu non sono forniti, in quanto variano necessariamente da robot a robot, come i sensori, le loro trasformate.\\ Come si può vedere, move\_base ha bisogno innanzitutto delle trasformate tra dati dei sensori, odometria e dati del nodo amcl (spiegato più in avanti) in modo da poter conoscere la struttura fisica del robot. Quindi, spostando l'attenzione verso il move-base vero e proprio, noteremo che è composto da cinque elementi principali: 
+\begin{itemize}
+\item \textbf{Global costmap:} Si tratta di una mappa dei costi, ovvero una mappa con un peso associato ad ogni pixel; viene utilizzata per guidare il robot nell'ambiente, facendogli raggiungere il proprio obiettivo attraverso il percorso dal costo minore possibile, e viene definita 'globale' in quanto serve a rappresentare l'ambiente in modo statico, per pianificazione a lungo termine. Per fare ciò, ha bisogno della mappa predefinita e dei rilevamenti dei sensori.
+\item \textbf{Local costmap:} Anch'essa è una mappa dei costi, ma utilizzata per operazioni di locali, come l'obstacle avoidance; per fare ciò deve essere frequentemente aggiornata, in modo da rispecchiare fedelmente i cambiamenti dell'ambiente in cui si trova il robot (come il passaggio di persone o lo spostamento momentaneo di oggetti) e richiede quindi accesso ai dati dei sensori del robot.
+\item \textbf{Global planner:} Il pianificatore associato alla global costmap; per le proprie operazioni di pianificazione ha bisogno della mappa dei costi globale e dell'obiettivo che il robot deve raggiungere.
+\item \textbf{Local planner:} Il pianificatore associato alla mappa dei costi locale; riceve da essa informazioni relative all'ambiente e le combina con i dati trasmessi dal global planner (per avere informazioni riguardo agli obiettivi del robot) e l'odometria (per potersi localizzare nello spazio), quindi stabilisce un percorso ottimale da seguire localmente e trasmette il messaggio con lo spostamento richiesto al controllore del movimento.
+\item \textbf{Recovery behaviors:} Questo nodo si occupa di gestire tutte le operazioni di recupero, ovvero quell'insieme di azioni che il robot deve compiere per rientrare da una situazione di errore, ovvero quando è incapace di trovare un modo di raggiungere l'obiettivo stabilito. Per cercare di ovviare a queste situazioni, il robot svolgerà una alla volta le istruzioni definite (modificabili dall'utente operando sul parametro recovery\_behaviors) e, nel caso in cui nessuna di esse dovesse portare a completare la pianificazione verso la meta, il robot interromperà la navigazione e si fermerà.
+\end{itemize}
+Per effettuare la localizzazione, move\_base utilizza AMCL (Adaptive Monte Carlo Localization), un algoritmo di localizzazione per robot che fa uso di particle filters: l'algoritmo consiste nel generare un insieme di punti con distribuzione uniforme nell'ambiente in cui si trova e quindi rilevare elementi di interesse; a questo punto, i vari punti, che descrivono un possibile stato del robot, vengono classificati in base alla probabilità di rappresentare la posizione corretta della macchina, quindi essa effettua uno spostamento, ricrea la particle cloud (questa volta generando i punti in modo che si accumulino in un intorno degli stati più probabilmente corretti) e ripete il procedimento, fino a quando non si converge alla soluzione corretta.\\Questo servizio è implementato attraverso il nodo \textit{amcl} dell'omonimo pacchetto, e permette tramite dati di tipo scansione laser dei sensori di effettuare localizzazione in ambiente 2d. Per fare ciò, il nodo richiede i seguenti dati:
+\begin{itemize}
+\item \textbf{Informazioni dai sensori:} Attraverso il topic \textit{scan} il nodo accede ai rilevamenti laser per poter percepire l'ambiente esterno.
+\item \textbf{Trasformate:} Il nodo ha ovviamente bisogno delle trasformate, pubblicate sul topic \textit{tf} per poter trattare gli input sensoriali in relazione alla struttura del robot.
+\item \textbf{Posizione iniziale:} La posizione iniziale (topic \textit{initialpose}) è necessaria per poter creare la particle cloud ed effettuare le varie fasi di modifica dei punti e della nuvola stessa sottolineati nel paragrafo precedente.
+\item \textbf{Mappa:} \textit{amcl} ha bisogno di una mappa per localizzare il robot e gli è fornita dal topic \textit{map} se il parametro \textit{use\_map\_topic} lo permette, altrimenti la richiede egli stesso con una chiamata.
+\end{itemize}
+Il nodo \textit{amcl} può essere inoltre controllato attraverso diversi tipi di parametri, che permettono di agire sulla particle cloud, i dati dei sensori laser e l'odometria.
+\chapter{Robot}
+Dopo aver discusso le varie componenti hardware e software che compongono il robot è opportuno analizzare l'effettiva costruzione di quest'ultimo. Non si tratta infatti di una questione triviale, in quanto particolari funzionalità del robot potrebbero richiedere determinati accorgimenti in fase di progettazione della struttura e viceversa; per esempio, un robot che implementi riconoscimento facciale potrebbe dover avere una certa altezza o posizionare il sensore su un supporto verticale, mentre un Roomba (un robot per la pulizia di ambienti chiusi), dovendo passare spesso sotto articoli di arredamento e simili, dovrà essere il più piatto possibile.
+\section{Base mobile}
+La base mobile del robot è formato da uno chassis interamente ligneo, costruito con due tavole di legno di dimensioni 40cm x 40cm x 1cm separate da quattro listelli di legno di dimensioni 3cm x 3cm x 15cm; all'interno dello spazio creato da questa disposizione delle parti verranno posizionate tutte le componenti del robot (sezione 3.2).\\
+Il corpo di \textcolor{sapred}{IGOR} è stato progettato in modo da essere il più piccolo e leggero possibile, e ciò è stato possibile grazie all'uso di materiali leggeri, componenti strutturali di dimensioni ridotte e ad una spaziatura sufficiente tra di esse. Questo comporta numerosi vantaggi:
+\begin{itemize}
+\item \textbf{Maggiore copertura: } Una piattaforma più piccola è in grado di passare per spazi più stretti (come porte e corridoi) e quindi raggiungere luoghi altrimenti inaccessibili dove poter svolgere le proprie funzioni.
+\item \textbf{Velocità maggiore: } Un peso minore della struttura limita di meno la velocità e causa sforzo minore sui raggi dei motori (riducendo il rischio di guasti e usura).
+\item \textbf{Trasportabilità: } Il peso e le dimensioni ridotte permettono un trasporto facilitato del robot anche a mano.
+\item \textbf{Accessibilità: } L'assenza di paratìe e coperture ridondanti permette ad un utente esterno di accedere con facilità alle parti interne del robot (per modifiche, assemblaggio, disassemblaggio, ...) senza però che esse vengano messe a rischio di collsioni e danni.
+\end{itemize}
+\section{Assemblaggio}
+La prima fase della costruzione del robot consiste nella realizzazione del corpo; per fare ciò, si posizionano i quattro listelli agli angoli di una delle tavole e si fissano in modo provvisorio (tramite colla, nastro adesivo, ...), quindi si ripete lo stesso procedimento con l'altra tavola, facendo attenzione che, alla fine di questo processo, i listelli siano quanto più possibile allineati con gli spigoli delle due superfici.\\
+Accertatisi dell'allineamento, bisognerà fissare tra loro le componenti: una delle due tavole verrà semplicemente avvitata, formando il piano superiore, mentre l'altra verrà assicurata in modo definitivo, usando ad esempio dei chiodi posizionati sotto le viti, formando il piano inferiore. Questa discrepanza tra i due metodi di fissaggio deriva dalla decisione di rendere possibile la rimozione della prima (a mo' di "coperchio"), per permettere un accesso facilitato alle parti interne, specialmente in fase di costruzione. Viene deciso a questo punto il verso frontale del robot, da segnare in modo che sia possibile accorgersene anche in futuro; quest'azione è necessaria per un motivo particolare: a causa di inevitabili errori umani, le tracce delle viti non si troveranno al centro dei listelli e quindi, posizionando la superficie superiore in modo errato si rischierà di allargare le tracce, compromettendo la struttura.\\\\
+Terminata questa fase, si passa al posizionamento delle componenti fisse, ovvero ruote, motori e sensore Kinect. Come prima cosa vanno fissate le guide per i motori sui due lati della tavola inferiore; le distanze dal bordo anteriore sono arbitrarie, ma è consigliato posizionarle il più vicine possibili ad esso per conferire una maggiore stabilità al robot. A questo punto si posizionano i motori nelle guide e si avvitano ad essi le ruote tramite gli appositi mozzi.\\
+Si passa quindi alla ruota posteriore caster, che permette ogni tipo di rotazione per permettere al robot di muoversi liberamente: nel caso di \textcolor{sapred}{IGOR} essa è una piccola sfera inserita in un guscio, fissata presso il bordo posteriore lungo l'asse centrale che lo congiunge al fronte del robot. Anche in questo caso non vi sono misure predefinite per il posizionamento ma è conveniente fissare la ruota ad una distanza ridotta dal bordo per stabilizzare la macchina.\\
+L'ultima componente fissa da inserire è il sensore Kinect, necessario in primo luogo per la visione. In \textcolor{sapred}{IGOR} il Kinect è stato ancorato tramite nastro adesivo alla piattaforma inferiore in modo da non sporgere dal robot; questo posizioneamento molto vicino al suolo permette al sensore di individuare con maggiore facilità tutti gli ostacoli a terra che andranno evitati, ignorando al contempo quelli troppo in alto, di scarsa rilevanza data l'altezza ridotta della struttura.\\\\
+Le ultime parti da posizionare sono quelle mobili e semi-mobili, ovvero pila, arduino e cavi; la batteria ed il sistema Arduino-Motor Shield sono stati al centro della piattaforma inferiore, in modo da bilanciareil peso e non causare squilibri, e fissati rispettivamente con nastro adesivo (per permettere la rimozione della pila durante il trasporto) e con viti grazie all'apposita custodia forata. I cavi invece sono stati avvolti e fermati con nastro isolante, eccezion fatta per il cavo dell'adattatore Kinect, il quale è stato fissato al piano inferiore tramite dei fermi a U; per evitare che movimenti eccessivi facessero scollegare i cavi passanti per il mammut, anche quest'ultimo è stato avvitato.
+\section{Elettronica}
+\section{Configurazione}
+\chapter{Funzionalità}
+\section{Conoscenze di background}
+\section{Implementazione}
+
+\chapter{Conclusioni}
+
+\end{document}
