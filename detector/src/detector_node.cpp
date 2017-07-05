@@ -12,16 +12,11 @@
 
 #define DEVHEIGHT 480
 #define DEVWIDTH 640
-#define THRESHOLD 0.01
-#define MAXVEL 0.5
 #define NOOBJSTR ""
-
-double max(double a, double b);
-double min(double a, double b);
 
 using namespace std;
 
-void detectionCallback(const std_msgs::Float32MultiArray::ConstPtr& msg, ros::Publisher pub, ros::Publisher pub2, ros::Publisher pub3) {
+void detectionCallback(const std_msgs::Float32MultiArray::ConstPtr& msg, ros::Publisher pub, ros::Publisher pub3) {
 	std_msgs::String feed, cent;
 	std::stringstream ss, ss1;
 	ros::Time t = ros::Time::now();
@@ -33,11 +28,6 @@ void detectionCallback(const std_msgs::Float32MultiArray::ConstPtr& msg, ros::Pu
 		ss << "Object " << msg->data[0] << " located at " << t.sec << "." << t.nsec;
 		feed.data = ss.str();
 		pub.publish(feed);
-		
-		//Linear velocity
-		tmsg.linear.x = 0;
-		tmsg.linear.y = 0;
-		tmsg.linear.z = 0;
 		
 		// get data
 		int id = (int)msg->data[0];
@@ -92,19 +82,10 @@ int main(int argc, char **argv) {
 	ros::NodeHandle n;
 	
 	ros::Publisher pub = n.advertise<std_msgs::String>("detector/feedback", 100);
-	ros::Publisher pub2 = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
 	ros::Publisher pub3 = n.advertise<std_msgs::String>("detector/centre", 100);
-	ros::Subscriber sub = n.subscribe<std_msgs::Float32MultiArray>("objects", 100, boost::bind(detectionCallback, _1, pub, pub2, pub3));
+	ros::Subscriber sub = n.subscribe<std_msgs::Float32MultiArray>("objects", 100, boost::bind(detectionCallback, _1, pub, pub3));
 	ros::spin();
 	
 	return 0;
-}
-
-double max(double a, double b) {
-	return a>b?a:b;
-}
-
-double min(double a, double b) {
-	return a<b?a:b;
 }
 
